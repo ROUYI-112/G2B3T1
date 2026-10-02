@@ -249,7 +249,7 @@ body.docked .combo{bottom:calc(var(--dockH,0px) + 14px)}
 .psg .pb{font-weight:800}
 
 .flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-.flip{position:relative;min-height:170px;border:1.5px solid var(--line);border-radius:18px;background:var(--bg);padding:14px;text-align:left;
+.flip{position:relative;min-height:230px;border:1.5px solid var(--line);border-radius:18px;background:var(--bg);padding:14px;text-align:left;
   box-shadow:0 4px 0 var(--butter);transition:transform .45s cubic-bezier(.3,1.3,.5,1);transform-style:preserve-3d}
 .flip .fr,.flip .bk{position:absolute;inset:0;padding:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px}
 .flip .fr{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
@@ -272,12 +272,12 @@ body.docked .combo{bottom:calc(var(--dockH,0px) + 14px)}
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --page:#2E3766; --page2:#46508A; --pageInk:#F3E9F0; --pageMuted:#C4C3E0;
-    --bg:#E9E1E8; --paper:#F4EFF1; --muted:#5E5F80; --line:#D8CCD8; --mt1:#4A548C; --mt2:#363F72; --cloud:#B9849A;
+    --bg:#E9E1E8; --paper:#F4EFF1; --muted:#5E5F80; --line:#D8CCD8; --mt1:#4A548C; --mt2:#363F72; --cloud:#B9849A; --ink:#2A2D4A; --gold:#C8234F; --butter:#F7D4DD; --peach:#F6C9D3; --olive:#2F7EA0; --oliveSoft:#DCEBF2; --coral:#C8234F; --coralSoft:#F8D9E1; --tray:#C98AA0; --shade:rgba(10,14,40,.6);
   }
 }
 :root[data-theme="dark"]{
   --page:#2E3766; --page2:#46508A; --pageInk:#F3E9F0; --pageMuted:#C4C3E0;
-  --bg:#E9E1E8; --paper:#F4EFF1; --muted:#5E5F80; --line:#D8CCD8; --mt1:#4A548C; --mt2:#363F72; --cloud:#B9849A;
+  --bg:#E9E1E8; --paper:#F4EFF1; --muted:#5E5F80; --line:#D8CCD8; --mt1:#4A548C; --mt2:#363F72; --cloud:#B9849A; --ink:#2A2D4A; --gold:#C8234F; --butter:#F7D4DD; --peach:#F6C9D3; --olive:#2F7EA0; --oliveSoft:#DCEBF2; --coral:#C8234F; --coralSoft:#F8D9E1; --tray:#C98AA0; --shade:rgba(10,14,40,.6);
 }
 body{background-color:var(--page);background-image:linear-gradient(180deg,var(--page) 0%,var(--page2) 70%);background-attachment:fixed}
 /* 遠山與粉色雲海 */
