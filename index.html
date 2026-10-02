@@ -261,76 +261,102 @@ body.docked .combo{bottom:calc(var(--dockH,0px) + 14px)}
 .trayhint{display:none;width:100%;background:var(--paper);border-left:5px solid var(--gold);border-radius:10px;padding:6px 10px;font-size:14px}
 .trayhint.show{display:block;animation:rise .3s ease}
 @media (prefers-reduced-motion:reduce){.flip{transform:none!important}.flip.on .fr{visibility:hidden}.flip .bk{transform:none;display:none}.flip.on .bk{display:block}}
-/* ===== 深夜速食店主題 ===== */
+/* ===== 春日山景主題 ===== */
 :root{
-  --page:#2A3152; --pageInk:#FBEFD6; --pageMuted:#B8B6CC; --tray:#B23A22; --neon:#F08A2C;
-  --bg:#F7E6C3; --paper:#FFF6E2; --ink:#3A2216; --muted:#8A5E44;
-  --gold:#F0A030; --butter:#F8D888; --peach:#F4B98F; --olive:#5C7A1C; --oliveSoft:#E5EDC4;
-  --coral:#D9472B; --coralSoft:#F9D3C6; --line:#EBCF9F; --shade:rgba(16,18,36,.6);
-  --city:linear-gradient(#1C2241,#1C2241) 0% 100%/13% 46% no-repeat,linear-gradient(#1C2241,#1C2241) 16% 100%/9% 70% no-repeat,linear-gradient(#1C2241,#1C2241) 27% 100%/15% 38% no-repeat,linear-gradient(#1C2241,#1C2241) 45% 100%/8% 60% no-repeat,linear-gradient(#1C2241,#1C2241) 56% 100%/14% 82% no-repeat,linear-gradient(#1C2241,#1C2241) 73% 100%/10% 50% no-repeat,linear-gradient(#1C2241,#1C2241) 86% 100%/15% 74% no-repeat,linear-gradient(#1C2241,#1C2241) 100% 100%/6% 40% no-repeat;
+  --page:#93ABDA; --page2:#B7C6E6; --pageInk:#26305C; --pageMuted:#3F4A7E; --tray:#E9AFC0; --neon:#C8234F;
+  --bg:#F3EDF1; --paper:#FCF9F7; --ink:#2A2D4A; --muted:#6A6C8C;
+  --gold:#C8234F; --butter:#F7D4DD; --peach:#F6C9D3; --olive:#2F7EA0; --oliveSoft:#DCEBF2;
+  --coral:#C8234F; --coralSoft:#F8D9E1; --line:#E3D9E3; --shade:rgba(38,48,92,.45);
+  --mt1:#7E89BC; --mt2:#5F6A9E; --cloud:#F4C6D2;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --page:#161B30; --pageInk:#F5E6CA; --pageMuted:#9E9BB4;
-    --bg:#E8D4AA; --paper:#F2E3C3; --ink:#2E1B11; --muted:#7A523A;
-    --gold:#E8962A; --butter:#EBC775; --line:#DDBE8A; --oliveSoft:#D9E2B2; --coralSoft:#EFC4B4;
+    --page:#2E3766; --page2:#46508A; --pageInk:#F3E9F0; --pageMuted:#C4C3E0;
+    --bg:#E9E1E8; --paper:#F4EFF1; --muted:#5E5F80; --line:#D8CCD8; --mt1:#4A548C; --mt2:#363F72; --cloud:#B9849A;
   }
 }
 :root[data-theme="dark"]{
-  --page:#161B30; --pageInk:#F5E6CA; --pageMuted:#9E9BB4;
-  --bg:#E8D4AA; --paper:#F2E3C3; --ink:#2E1B11; --muted:#7A523A;
-  --gold:#E8962A; --butter:#EBC775; --line:#DDBE8A; --oliveSoft:#D9E2B2; --coralSoft:#EFC4B4;
+  --page:#2E3766; --page2:#46508A; --pageInk:#F3E9F0; --pageMuted:#C4C3E0;
+  --bg:#E9E1E8; --paper:#F4EFF1; --muted:#5E5F80; --line:#D8CCD8; --mt1:#4A548C; --mt2:#363F72; --cloud:#B9849A;
 }
-body{background-color:var(--page);
-  background-image:linear-gradient(118deg,transparent 22%,rgba(255,255,255,.06) 23%,transparent 27%,transparent 64%,rgba(255,255,255,.05) 65%,rgba(255,255,255,.05) 66%,transparent 70%),
-  radial-gradient(ellipse at 80% 0%,rgba(240,138,44,.18),transparent 55%);background-attachment:fixed}
-body::before,body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:42vh;z-index:0;pointer-events:none}
-body::before{background:var(--city);opacity:.95}
-body::after{background:radial-gradient(circle,#F6C35A 0 2px,transparent 2.6px) 6px 8px/26px 30px;
-  -webkit-mask:var(--city);mask:var(--city);opacity:.7}
+body{background-color:var(--page);background-image:linear-gradient(180deg,var(--page) 0%,var(--page2) 70%);background-attachment:fixed}
+/* 遠山與粉色雲海 */
+body::before{content:"";position:fixed;left:0;right:0;bottom:0;height:40vh;z-index:0;pointer-events:none;
+  background:
+   radial-gradient(60% 55% at 12% 100%,var(--cloud) 60%,transparent 61%),
+   radial-gradient(45% 40% at 55% 105%,var(--cloud) 60%,transparent 61%),
+   radial-gradient(50% 45% at 92% 102%,var(--cloud) 60%,transparent 61%),
+   radial-gradient(70% 80% at 20% 115%,var(--mt2) 60%,transparent 61%),
+   radial-gradient(60% 75% at 78% 118%,var(--mt2) 60%,transparent 61%),
+   radial-gradient(55% 90% at 40% 125%,var(--mt1) 60%,transparent 61%),
+   radial-gradient(45% 85% at 95% 125%,var(--mt1) 60%,transparent 61%)}
+/* 紙張顆粒 */
+body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.16;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .2 0 0 0 0 .35 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .wrap{position:relative;z-index:1}
-/* 招牌標題 */
+.petal{position:fixed;top:-20px;z-index:0;width:9px;height:7px;background:#FFF3F6;border-radius:70% 0 70% 0;pointer-events:none;opacity:.9;
+  animation:fall linear infinite}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(540deg)}}
+@media (prefers-reduced-motion:reduce){.petal{display:none}}
+/* 標題 */
 .hero h1{color:var(--pageInk)}
-.hero h1 .sign{display:inline;background:var(--coral);color:#FFF4DC;padding:.08em .38em;border-radius:10px;line-height:1.55;
-  -webkit-box-decoration-break:clone;box-decoration-break:clone;box-shadow:0 5px 0 #8E2A18,0 0 26px rgba(217,71,43,.55)}
+.hero h1 .sign{display:inline;background:none;color:var(--pageInk);padding:0;box-shadow:none}
+.hero h1 .sign+br+.sign{display:inline-block;background:var(--coral);color:#FFF4F6;padding:.04em .4em;border-radius:6px;margin-top:6px;box-shadow:0 5px 0 #8F1636}
 .hero p{color:var(--pageMuted)}
-.stat{background:rgba(255,246,226,.08);border-color:rgba(255,246,226,.25);color:var(--pageInk)}
-.stat.btnlike{border-color:var(--neon)}
-/* 霓虹進度環 */
-.rays{background:repeating-conic-gradient(var(--neon) 0 5deg,transparent 5deg 30deg);opacity:.8;filter:drop-shadow(0 0 6px var(--neon))}
-.disc{background:conic-gradient(var(--coral) calc(var(--p) * 1%),#3A4268 0);box-shadow:0 0 22px rgba(240,138,44,.55)}
-.face{background:#1E2440;color:#FFF4DC}
-.face small{color:#B8B6CC}
-.level{color:#F6C35A}
+.stat{background:rgba(252,249,247,.55);border-color:rgba(255,255,255,.7);color:var(--ink)}
+.stat.btnlike{border-color:var(--coral)}
+/* 進度環：櫻花 */
+.rays{background:repeating-conic-gradient(#FFF3F6 0 6deg,transparent 6deg 30deg);opacity:.9;filter:none}
+.disc{background:conic-gradient(var(--coral) calc(var(--p) * 1%),var(--peach) 0);box-shadow:none}
+.face{background:var(--paper);color:var(--ink)}
+.face small{color:var(--muted)}
+.level{color:var(--pageInk)}
 /* 導覽 */
-.navwrap,nav.tabs{background:color-mix(in srgb,var(--page) 92%,transparent)}
-.modes{background:rgba(255,246,226,.07);border-color:rgba(255,246,226,.22)}
+.navwrap{background:color-mix(in srgb,var(--page) 80%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);margin:0 -12px;padding:8px 12px 0;border-radius:0 0 18px 18px}
+.navwrap nav.tabs{background:transparent}
+.modes{background:rgba(252,249,247,.45);border-color:rgba(255,255,255,.7)}
 .mode{color:var(--pageInk)}
-.mode[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
-.tab{background:rgba(255,246,226,.07);border-color:rgba(255,246,226,.22);color:var(--pageInk)}
-.tab small{color:var(--pageMuted)}
-.tab[aria-selected="true"]{background:var(--coral);border-color:var(--coral);color:#FFF4DC;box-shadow:0 0 14px rgba(217,71,43,.6)}
-.tab[aria-selected="true"] small{color:#FFE2C2}
-/* 放在夜景上的文字 */
+.mode[aria-pressed="true"]{background:var(--olive);color:#F3FAFD}
+.tab{background:rgba(252,249,247,.6);border-color:rgba(255,255,255,.8);color:var(--ink)}
+.tab small{color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--coral);border-color:var(--coral);color:#FFF4F6;box-shadow:none}
+.tab[aria-selected="true"] small{color:#FFD9E2}
 .panel>h2{color:var(--pageInk)}
 .panel>.lead,.panel>p.lead{color:var(--pageMuted)}
-.subhead{color:#F6C35A}
-.subhead::after{background:rgba(255,246,226,.18)}
+.subhead{color:var(--pageInk)}
+.subhead::after{background:rgba(255,255,255,.5)}
 .panel>.legend{color:var(--pageInk)}
-.panel>.legend .small,footer .small{color:var(--pageInk);border-color:rgba(255,246,226,.3)}
-.panel>.legend .mk-g{border-bottom-color:#A9C45A}
-.panel>.legend .mk-k{border-bottom-color:#F2836A}
-.panel>.legend .mk-c{background:linear-gradient(transparent 58%,rgba(248,216,136,.45) 58%)}
-/* 卡片像餐盒，陰影像托盤 */
-.card{border:0;box-shadow:0 7px 0 var(--tray),0 14px 26px rgba(10,12,28,.35)}
-.card.done{box-shadow:0 7px 0 var(--tray),0 0 0 3px var(--gold),0 14px 26px rgba(10,12,28,.35)}
-.combo{background:var(--coral);color:#FFF4DC;box-shadow:0 5px 0 #8E2A18,0 0 20px rgba(217,71,43,.5)}
-.btn{background:var(--coral);color:#FFF4DC;box-shadow:0 4px 0 #8E2A18}
-.dock{border-top-color:var(--coral);box-shadow:0 -6px 0 var(--tray)}
+.panel>.legend .small,footer .small{color:var(--pageInk);border-color:rgba(255,255,255,.7);background:rgba(252,249,247,.4)}
+/* 標記顏色 */
+.mk-c{background:linear-gradient(transparent 58%,var(--peach) 58%)}
+.mk-g{border-bottom-color:var(--olive)}
+.mk-k{border-bottom-color:var(--coral)}
+.mk.glow{background:var(--butter);box-shadow:0 0 0 2px var(--coral)}
+.pb{border-color:var(--olive)}
+.pb.active{background:var(--olive);color:#F3FAFD}
+.pb.ok{border-color:var(--coral);background:var(--coralSoft)}
+.blank{border-bottom-color:var(--olive)}
+.blank.active{background:var(--oliveSoft)}
+.blank.ok{background:var(--coralSoft);border-bottom-color:var(--coral)}
+.opt.ok,.chip.ok{background:var(--coralSoft);border-color:var(--coral);box-shadow:0 3px 0 var(--coral)}
+.opt.ok::after{color:var(--coral)}
+.opt.no,.chip.no{background:#E6E8F3;border-color:#9AA0C4}
+.opt.no::after{color:#6A70A0}
+.zone.ok{border-color:var(--coral);background:var(--coralSoft)}
+.card.done .badge{color:var(--coral)}
+.exlist b{color:var(--coral)}
+/* 卡片 */
+.card{border:0;box-shadow:0 6px 0 var(--tray),0 14px 26px rgba(38,48,92,.18)}
+.card.done{box-shadow:0 6px 0 var(--tray),0 0 0 3px var(--coral),0 14px 26px rgba(38,48,92,.18)}
+.ex{border-left-color:var(--olive)}
+.combo{background:var(--coral);color:#FFF4F6;box-shadow:0 5px 0 #8F1636}
+.btn{background:var(--coral);color:#FFF4F6;box-shadow:0 4px 0 #8F1636}
+.dock{border-top-color:var(--olive);box-shadow:0 -6px 0 var(--tray)}
+.dock-note,.trayhint{border-left-color:var(--olive)}
 .toast{border-color:var(--coral);box-shadow:0 6px 0 var(--tray)}
 .modal{box-shadow:0 8px 0 var(--tray)}
-.navwrap{background:color-mix(in srgb,var(--page) 82%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);margin:0 -12px;padding:8px 12px 0;border-radius:0 0 18px 18px}
-.navwrap nav.tabs{background:transparent}
+.float{color:var(--coral)}.float.big{color:var(--olive)}
+.flip{box-shadow:0 4px 0 var(--tray)}.flip .bk{border-color:var(--coral)}
 </style>
 </head>
 <body>
@@ -574,7 +600,7 @@ const ACH=[
 ];
 const PRAISE=['漂亮！','穩穩的 ✨','太強了吧','越來越順了','完美！','好聰明 🌼','這題很多人會錯！','陽光滿點 ☀','就是這樣！','線索抓得好 🔍'];
 const LEVELS=[[0,'小種子 🌰'],[10,'冒芽中 🌱'],[35,'長葉子 🌿'],[60,'小向日葵 🌻'],[85,'快要發光 ✨'],[100,'小太陽 ☀️']];
-const COLORS=['#E6B243','#F6CFB3','#9BB33D','#F2D27A','#E99A7E','#FFF1C1'];
+const COLORS=['#C8234F','#F6C9D3','#2F7EA0','#FFF3F6','#93ABDA','#E98FA8'];
 const LET='ABCDEF';
 const KEY='g3-review1-v2', TABKEY='g3-review1-tab3', MODEKEY='g3-review1-mode', MARKKEY='g3-review1-marks';
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -972,6 +998,11 @@ document.getElementById('reset').onclick=()=>{
   location.reload();
 };
 
+
+(()=>{if(reduce)return;for(let i=0;i<16;i++){const p=document.createElement('span');p.className='petal';
+p.style.left=Math.random()*100+'vw';p.style.setProperty('--dx',(Math.random()*160-80)+'px');
+p.style.animationDuration=(9+Math.random()*9)+'s';p.style.animationDelay=(-Math.random()*18)+'s';
+const s=.7+Math.random()*.7;p.style.width=9*s+'px';p.style.height=7*s+'px';document.body.append(p)}})();
 </script>
 </body>
 </html>
