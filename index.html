@@ -247,13 +247,97 @@ body.docked .combo{bottom:calc(var(--dockH,0px) + 14px)}
 .combo:not(.show){opacity:0;pointer-events:none}
 .psg,.psg .en{font-weight:400}
 .psg .pb{font-weight:800}
+
+.flips{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.flip{position:relative;min-height:170px;border:1.5px solid var(--line);border-radius:18px;background:var(--bg);padding:14px;text-align:left;
+  box-shadow:0 4px 0 var(--butter);transition:transform .45s cubic-bezier(.3,1.3,.5,1);transform-style:preserve-3d}
+.flip .fr,.flip .bk{position:absolute;inset:0;padding:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px}
+.flip .fr{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.flip .fe{font-size:38px;line-height:1}
+.flip .fr b{font-size:22px}
+.flip .fr small{color:var(--muted);font-size:13px}
+.flip .bk{transform:rotateY(180deg);background:var(--paper);border:1.5px solid var(--gold);font-size:14.5px;line-height:1.65;overflow:auto}
+.flip.on{transform:rotateY(180deg)}
+.trayhint{display:none;width:100%;background:var(--paper);border-left:5px solid var(--gold);border-radius:10px;padding:6px 10px;font-size:14px}
+.trayhint.show{display:block;animation:rise .3s ease}
+@media (prefers-reduced-motion:reduce){.flip{transform:none!important}.flip.on .fr{visibility:hidden}.flip .bk{transform:none;display:none}.flip.on .bk{display:block}}
+/* ===== 深夜速食店主題 ===== */
+:root{
+  --page:#2A3152; --pageInk:#FBEFD6; --pageMuted:#B8B6CC; --tray:#B23A22; --neon:#F08A2C;
+  --bg:#F7E6C3; --paper:#FFF6E2; --ink:#3A2216; --muted:#8A5E44;
+  --gold:#F0A030; --butter:#F8D888; --peach:#F4B98F; --olive:#5C7A1C; --oliveSoft:#E5EDC4;
+  --coral:#D9472B; --coralSoft:#F9D3C6; --line:#EBCF9F; --shade:rgba(16,18,36,.6);
+  --city:linear-gradient(#1C2241,#1C2241) 0% 100%/13% 46% no-repeat,linear-gradient(#1C2241,#1C2241) 16% 100%/9% 70% no-repeat,linear-gradient(#1C2241,#1C2241) 27% 100%/15% 38% no-repeat,linear-gradient(#1C2241,#1C2241) 45% 100%/8% 60% no-repeat,linear-gradient(#1C2241,#1C2241) 56% 100%/14% 82% no-repeat,linear-gradient(#1C2241,#1C2241) 73% 100%/10% 50% no-repeat,linear-gradient(#1C2241,#1C2241) 86% 100%/15% 74% no-repeat,linear-gradient(#1C2241,#1C2241) 100% 100%/6% 40% no-repeat;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page:#161B30; --pageInk:#F5E6CA; --pageMuted:#9E9BB4;
+    --bg:#E8D4AA; --paper:#F2E3C3; --ink:#2E1B11; --muted:#7A523A;
+    --gold:#E8962A; --butter:#EBC775; --line:#DDBE8A; --oliveSoft:#D9E2B2; --coralSoft:#EFC4B4;
+  }
+}
+:root[data-theme="dark"]{
+  --page:#161B30; --pageInk:#F5E6CA; --pageMuted:#9E9BB4;
+  --bg:#E8D4AA; --paper:#F2E3C3; --ink:#2E1B11; --muted:#7A523A;
+  --gold:#E8962A; --butter:#EBC775; --line:#DDBE8A; --oliveSoft:#D9E2B2; --coralSoft:#EFC4B4;
+}
+body{background-color:var(--page);
+  background-image:linear-gradient(118deg,transparent 22%,rgba(255,255,255,.06) 23%,transparent 27%,transparent 64%,rgba(255,255,255,.05) 65%,rgba(255,255,255,.05) 66%,transparent 70%),
+  radial-gradient(ellipse at 80% 0%,rgba(240,138,44,.18),transparent 55%);background-attachment:fixed}
+body::before,body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:42vh;z-index:0;pointer-events:none}
+body::before{background:var(--city);opacity:.95}
+body::after{background:radial-gradient(circle,#F6C35A 0 2px,transparent 2.6px) 6px 8px/26px 30px;
+  -webkit-mask:var(--city);mask:var(--city);opacity:.7}
+.wrap{position:relative;z-index:1}
+/* 招牌標題 */
+.hero h1{color:var(--pageInk)}
+.hero h1 .sign{display:inline;background:var(--coral);color:#FFF4DC;padding:.08em .38em;border-radius:10px;line-height:1.55;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;box-shadow:0 5px 0 #8E2A18,0 0 26px rgba(217,71,43,.55)}
+.hero p{color:var(--pageMuted)}
+.stat{background:rgba(255,246,226,.08);border-color:rgba(255,246,226,.25);color:var(--pageInk)}
+.stat.btnlike{border-color:var(--neon)}
+/* 霓虹進度環 */
+.rays{background:repeating-conic-gradient(var(--neon) 0 5deg,transparent 5deg 30deg);opacity:.8;filter:drop-shadow(0 0 6px var(--neon))}
+.disc{background:conic-gradient(var(--coral) calc(var(--p) * 1%),#3A4268 0);box-shadow:0 0 22px rgba(240,138,44,.55)}
+.face{background:#1E2440;color:#FFF4DC}
+.face small{color:#B8B6CC}
+.level{color:#F6C35A}
+/* 導覽 */
+.navwrap,nav.tabs{background:color-mix(in srgb,var(--page) 92%,transparent)}
+.modes{background:rgba(255,246,226,.07);border-color:rgba(255,246,226,.22)}
+.mode{color:var(--pageInk)}
+.mode[aria-pressed="true"]{background:var(--paper);color:var(--ink)}
+.tab{background:rgba(255,246,226,.07);border-color:rgba(255,246,226,.22);color:var(--pageInk)}
+.tab small{color:var(--pageMuted)}
+.tab[aria-selected="true"]{background:var(--coral);border-color:var(--coral);color:#FFF4DC;box-shadow:0 0 14px rgba(217,71,43,.6)}
+.tab[aria-selected="true"] small{color:#FFE2C2}
+/* 放在夜景上的文字 */
+.panel>h2{color:var(--pageInk)}
+.panel>.lead,.panel>p.lead{color:var(--pageMuted)}
+.subhead{color:#F6C35A}
+.subhead::after{background:rgba(255,246,226,.18)}
+.panel>.legend{color:var(--pageInk)}
+.panel>.legend .small,footer .small{color:var(--pageInk);border-color:rgba(255,246,226,.3)}
+.panel>.legend .mk-g{border-bottom-color:#A9C45A}
+.panel>.legend .mk-k{border-bottom-color:#F2836A}
+.panel>.legend .mk-c{background:linear-gradient(transparent 58%,rgba(248,216,136,.45) 58%)}
+/* 卡片像餐盒，陰影像托盤 */
+.card{border:0;box-shadow:0 7px 0 var(--tray),0 14px 26px rgba(10,12,28,.35)}
+.card.done{box-shadow:0 7px 0 var(--tray),0 0 0 3px var(--gold),0 14px 26px rgba(10,12,28,.35)}
+.combo{background:var(--coral);color:#FFF4DC;box-shadow:0 5px 0 #8E2A18,0 0 20px rgba(217,71,43,.5)}
+.btn{background:var(--coral);color:#FFF4DC;box-shadow:0 4px 0 #8E2A18}
+.dock{border-top-color:var(--coral);box-shadow:0 -6px 0 var(--tray)}
+.toast{border-color:var(--coral);box-shadow:0 6px 0 var(--tray)}
+.modal{box-shadow:0 8px 0 var(--tray)}
+.navwrap{background:color-mix(in srgb,var(--page) 82%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);margin:0 -12px;padding:8px 12px 0;border-radius:0 0 18px 18px}
+.navwrap nav.tabs{background:transparent}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="hero">
     <div class="hero-text">
-      <h1>第三冊 L1 到 Review 1<br>段考複習小陽光</h1>
+      <h1><span class="sign">第三冊 L1 到 Review 1</span><br><span class="sign">段考複習小陽光</span></h1>
       <p>全部用點的。文法總整理加上四課題本，答對累積陽光值，連對還有加成。</p>
       <div class="stats">
         <span class="stat" id="pts">☀ 陽光值 0</span>
@@ -406,10 +490,33 @@ const DATA = [
  {t:'choice', title:'that 是哪一種？(2)', q:`I had to do anything <b>that</b> I could to cheer little Billy up.`, opts:['名詞子句（同位語）','*關係子句'],
   ex:`that 指前面的 anything，在子句裡當 do 的受詞 → 不完整，是關係子句。`}
 ]},
-{key:'P', name:'介系詞特訓', emoji:'🕯️', lead:'Prometheus 的故事，十個空格一格一格點。', cards:[
+{key:'P', name:'介系詞特訓', emoji:'🕯️', lead:'先上小教室：翻開每張卡，記住介系詞的「畫面」，再做混淆題，最後挑戰 Prometheus 的故事。', cards:[
+ {t:'learn', title:'介系詞的核心畫面', q:'每個介系詞都有一個「畫面」，記住畫面比背中文好用。點卡片翻面看看！', items:[
+  {e:'🎯',f:'for',b:`<b>畫面：箭頭射向目標</b>，表示「為了誰、給誰、對…的」<br>本課：love <b>for</b> humankind（對人類的愛）、<b>for</b> the benefit of humans（為了人類的利益）、keep the meat <b>for</b> themselves（把肉留給自己）<br><span class="en">She has a deep love for her family.</span>`},
+  {e:'🚪',f:'into',b:`<b>畫面：從外面走進門裡</b>，表示「進入某種狀態」<br>本課：bring sb <b>into</b> conflict with…（使某人與…起衝突）<br><span class="en">His rude words brought him into conflict with his boss.</span>`},
+  {e:'📌',f:'on',b:`<b>畫面：圖釘釘在一個點上</b>，表示「針對、落在某件事上」<br>本課：decide <b>on</b> the distribution（就分配方式作決定）<br><span class="en">We finally decided on a date for the trip.</span>`},
+  {e:'➡️',f:'to',b:`<b>畫面：箭頭指向終點</b>，表示「朝向、給某對象」<br>本課：make sacrifices <b>to</b> the gods（向神獻祭）、an offering <b>to</b> the gods（給神的祭品）<br><span class="en">The villagers made offerings to the gods for rain.</span>`},
+  {e:'⬇️',f:'under',b:`<b>畫面：東西藏在下面</b>，表示「在…底下」<br>本課：juicy meat <b>under</b> the fat（脂肪底下的肉）<br><span class="en">The cat is hiding under the bed.</span>`},
+  {e:'🤝',f:'with',b:`<b>畫面：手裡拿著東西</b>，表示「帶著、擁有、伴隨」<br>本課：end up <b>with</b> nothing but bones（最後手裡只剩骨頭）<br><span class="en">He ended up with a broken phone.</span>`},
+  {e:'🎭',f:'as',b:`<b>畫面：戴上面具扮演角色</b>，表示「作為、當成」<br>本課：burn bones <b>as</b> an offering（把骨頭當作祭品）<br><span class="en">She works as a nurse at the hospital.</span>`}
+ ]},
+ {t:'learn', title:'for 和 to 怎麼分？', q:'兩個都可以翻成「給」，但畫面不一樣。翻開看看差在哪。', items:[
+  {e:'🎯',f:'for = 為了誰',b:`重點在「目的、受益的人」<br><span class="en">I bought a gift <b>for</b> my mom.</span>（為了媽媽買）<br><span class="en">keep the meat <b>for</b> themselves</span>（留給自己享用）`},
+  {e:'➡️',f:'to = 交到誰手上',b:`重點在「動作朝向、送達的對象」<br><span class="en">I gave the gift <b>to</b> my mom.</span>（交到媽媽手上）<br><span class="en">an offering <b>to</b> the gods</span>（獻給神）`},
+  {e:'🧠',f:'小訣竅',b:`看動詞：give、send、make offerings 這類「送出去」的動詞配 <b>to</b>；buy、make、keep 這類「替人準備」的動詞配 <b>for</b>。`}
+ ]},
+ {t:'choice', title:'暖身：as 還是 like？', q:`She works ___ a teacher at my school.`, opts:['*as','like'],
+  ex:`<b>as</b>＝真的是那個身分（她就是老師）；<b>like</b>＝像…一樣（但其實不是）。burn bones <b>as</b> an offering 也是「當作」祭品。`},
+ {t:'choice', title:'暖身：decide 後面接？', q:`After a long talk, we decided ___ the blue one.`, opts:['*on','in','at'],
+  ex:`decide on + 名詞＝針對某選項作決定（📌 釘在一個點上）。decide to V 則接動詞：decide to leave。`},
+ {t:'choice', title:'暖身：end up 後面接？', q:`He spent all his money and ended up ___ nothing.`, opts:['*with','by','in'],
+  ex:`end up with + 東西＝最後「手裡剩下」…（🤝 帶著）。Lesson 3 也學過：end up being / like。`},
+ {t:'choice', title:'暖身：bring sb ___ conflict', q:`His decision brought him ___ conflict with his parents.`, opts:['*into','to','on'],
+  ex:`into＝進入某種狀態（🚪 走進去）。bring sb into conflict with sb 是固定搭配，Lesson 3 克漏字也常考。`},
  {t:'blanks', passage:true, title:'Prometheus and Zeus', q:[
   `Prometheus's love [[0]] humankind brought him [[1]] conflict with Zeus, the king of the Olympian gods. When the gods and humans met at Mecone to decide [[2]] the distribution of sacrifices that humans should make [[3]] the gods, Prometheus tricked Zeus [[4]] the benefit of humans. He slaughtered a bull and created two offerings. One was a pile of beef hidden inside a bull's stomach, and the other was a pile of bones covered in shiny fat. He then asked Zeus to choose one. The king of the gods chose the second one, believing there must be juicy meat [[5]] the fat, but instead he ended up [[6]] nothing but bones. From that day on, humans would keep the meat [[7]] themselves and burn animal bones [[8]] an offering [[9]] the gods.`],
   b:[['*for','of','at'],['*into','in','to'],['*on','at','in'],['*to','with','from'],['*for','with','in'],['*under','over','through'],['*with','by','in'],['*for','to','by'],['*as','like','with'],['*to','by','at']],
+  hints:['對…的愛：箭頭射向「人類」這個對象 🎯','使某人「進入」衝突狀態 🚪','針對「分配方式」作決定 📌','向神獻祭：動作朝向神 ➡️','為了人類的利益 🎯','肉藏在脂肪「底下」⬇️','最後「手裡只剩」骨頭 🤝','把肉留「給」自己享用 🎯','把骨頭「當作」祭品 🎭','祭品是「獻給」神的 ➡️'],
   ex:`love <b>for</b>；bring sb <b>into</b> conflict with；decide <b>on</b>；make sacrifices <b>to</b>；<b>for</b> the benefit of；<b>under</b> the fat；end up <b>with</b>；keep … <b>for</b> themselves；burn … <b>as</b> an offering；an offering <b>to</b> the gods。`}
 ]},
 {key:'MC', name:'選擇題', emoji:'🎯', lead:'15 題，全部一次答對可以拿隱藏成就。', cards:[
@@ -629,7 +736,7 @@ function setDoneLook(card,c){
   const again=el('button','again','再練一次');again.onclick=()=>{if(dockCur&&dockCur.card===card)Dock.close();card.replaceWith(makeCard(c,true))};
   b.append(again);
 }
-const KIND={blanks:'點選填空',build:'排句子',choice:'點選',mc:'選擇題',cloze:'克漏字',bank:'文意選填',struct:'篇章結構',read:'閱讀測驗'};
+const KIND={learn:'小教室',blanks:'點選填空',build:'排句子',choice:'點選',mc:'選擇題',cloze:'克漏字',bank:'文意選填',struct:'篇章結構',read:'閱讀測驗'};
 
 function makeCard(c,fresh){
   const card=el('article','card');card.dataset.id=c.id;
@@ -638,7 +745,7 @@ function makeCard(c,fresh){
   head.append(el('h3','',`<span class="kind">${KIND[c.t]}</span>${title}`),el('span','badge','還沒點亮'));
   card.append(head);
   const showDone=!fresh&&S.done.has(c.id);
-  ({blanks:buildBlanks,build:buildBuilder,choice:buildChoice,mc:buildChoice,cloze:buildPassage,bank:buildPassage,struct:buildPassage,read:buildReading})[c.t](c,card,showDone);
+  ({learn:buildLearn,blanks:buildBlanks,build:buildBuilder,choice:buildChoice,mc:buildChoice,cloze:buildPassage,bank:buildPassage,struct:buildPassage,read:buildReading})[c.t](c,card,showDone);
   card.append(el('div','ex'));
   if(showDone){setDoneLook(card,c);if(c.html&&c.t!=='read')showPassageEx(c,card)}
   return card;
@@ -659,6 +766,8 @@ function buildBlanks(c,card,showDone){
     tray.innerHTML='';
     if(i==null){tray.remove();return}
     tray.append(el('div','lab',`第 ${i+1} 格，選一個填進去`));
+    let hb=null,hn=null;
+    if(c.hints){hn=el('div','trayhint','💡 '+c.hints[i]);hb=el('button','small','💡 提示');hb.onclick=()=>{hn.classList.add('show');hb.remove()};tray.append(hn)}
     specs[i].opts.forEach(o=>{
       const ch=el('button','chip en',o.text);
       ch.onclick=e=>{
@@ -666,10 +775,11 @@ function buildBlanks(c,card,showDone){
           filled[i]=true;fill(i);anim(blanks[i],'pop');right(blanks[i],e);
           let next=filled.findIndex((f,k)=>!f&&k>i);if(next===-1)next=filled.indexOf(false);
           if(next===-1){setActive(null);complete(c,card,blanks[i],null)}else setActive(next);
-        }else{ch.classList.add('no');ch.disabled=true;wrong(blanks[i],c.id)}
+        }else{ch.classList.add('no');ch.disabled=true;wrong(blanks[i],c.id);if(hn){hn.classList.add('show');hb&&hb.remove()}}
       };
       tray.append(ch);
     });
+    if(hb)tray.append(hb);
   };
   blanks.forEach((b,i)=>b.onclick=()=>{if(!filled[i])setActive(i)});
   setActive(0);
@@ -736,6 +846,20 @@ function buildChoice(c,card,showDone){
   card.append(choiceBox(c,c.t==='mc',showDone,(b,e)=>complete(c,card,b,e),()=>showEx(card,c),c.id));
 }
 
+function buildLearn(c,card,showDone){
+  card.append(el('p','q',c.q));
+  const grid=el('div','flips');const seen=new Set();
+  c.items.forEach((it,i)=>{
+    const f=el('button','flip'+(showDone?' on':''),`<span class="fr"><span class="fe">${it.e}</span><b class="en">${it.f}</b><small>點我翻面</small></span><span class="bk">${it.b}</span>`);
+    f.onclick=e=>{
+      f.classList.toggle('on');
+      if(!seen.has(i)&&!showDone){seen.add(i);S.pts+=5;save();updateStats();const[x,y]=pos(f,e);floatText('+5',x,y-10);
+        if(seen.size===c.items.length)complete(c,card,f,e)}
+    };
+    grid.append(f);
+  });
+  card.append(grid);
+}
 /* ---- 題本文章：克漏字 / 文意選填 / 篇章結構 ---- */
 function optText(c,n){const a=c.blanks[n].ans;return c.t==='cloze'?c.opts[n][a]:c.t==='bank'?c.bank[a][1]:c.sents[a]}
 function showPassageEx(c,card){
@@ -808,7 +932,7 @@ GROUPS.forEach(g=>{const b=el('button','mode',g.name);b.dataset.g=g.id;b.onclick
 SECS.forEach(sec=>{
   const p=el('section','panel');p.id='panel-'+sec.key;p.setAttribute('role','tabpanel');
   p.append(el('h2','',sec.emoji+' '+sec.name),el('p','lead',sec.lead));
-  if(sec.key.startsWith('P')){
+  if(PRAC.includes(sec)){
     const lg=el('div','legend','<span class="mk mk-c">關聯詞</span><span class="mk mk-g">文法線索</span><span class="mk mk-k">提示詞</span>');
     const tg=el('button','small','');const upd=()=>tg.textContent=document.body.classList.contains('nomarks')?'顯示標記':'隱藏標記';upd();
     tg.onclick=()=>{document.body.classList.toggle('nomarks');try{localStorage.setItem(MARKKEY,document.body.classList.contains('nomarks')?'0':'1')}catch(e){};document.querySelectorAll('.legend .small').forEach(b=>b.textContent=document.body.classList.contains('nomarks')?'顯示標記':'隱藏標記')};
