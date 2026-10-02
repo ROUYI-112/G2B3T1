@@ -357,6 +357,29 @@ body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opac
 .modal{box-shadow:0 8px 0 var(--tray)}
 .float{color:var(--coral)}.float.big{color:var(--olive)}
 .flip{box-shadow:0 4px 0 var(--tray)}.flip .bk{border-color:var(--coral)}
+
+/* 翻卡改成 2D 翻面，預設正面 */
+.flip{transform:none;transform-style:flat}
+.flip .fr,.flip .bk{position:static;inset:auto;transform:none;backface-visibility:visible;-webkit-backface-visibility:visible;padding:0}
+.flip .fr{min-height:200px}
+.flip .bk{display:none;border:0;background:none;overflow:visible}
+.flip.on{transform:none;background:var(--paper);border-color:var(--coral)}
+.flip.on .fr{display:none}
+.flip.on .bk{display:block}
+.flip.turn{animation:turn .34s ease}
+@keyframes turn{50%{transform:scaleX(.02)}}
+/* 互動動畫 */
+.tab,.mode,.stat,.small,.chip,.opt,.tile,.pb,.flip,.btn{transition:transform .12s}
+.tab:active,.mode:active,.stat:active,.small:active,.flip:active{transform:scale(.95)}
+.panel.on>.card{animation:cardIn .45s cubic-bezier(.3,1.3,.5,1) both}
+.panel.on>.card:nth-of-type(2){animation-delay:.05s}.panel.on>.card:nth-of-type(3){animation-delay:.1s}.panel.on>.card:nth-of-type(4){animation-delay:.15s}.panel.on>.card:nth-of-type(5){animation-delay:.2s}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.98)}}
+.panel.on>h2{animation:cardIn .4s ease both}
+.card.cardwin{animation:cardwin .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes cardwin{30%{transform:scale(1.025) rotate(-.4deg)}60%{transform:scale(.995) rotate(.3deg)}}
+.badge{transition:color .3s}
+.card.done .badge{animation:pop .5s ease}
+@media (prefers-reduced-motion:reduce){.panel.on>.card,.card.cardwin{animation:none}}
 </style>
 </head>
 <body>
@@ -368,6 +391,7 @@ body::after{content:"";position:fixed;inset:0;z-index:2;pointer-events:none;opac
       <div class="stats">
         <span class="stat" id="pts">☀ 陽光值 0</span>
         <button class="stat btnlike" id="achBtn">🏅 成就 0/0</button>
+        <button class="stat" id="sndBtn">🔊 音效開</button>
       </div>
     </div>
     <div class="sunbox">
@@ -604,6 +628,21 @@ const COLORS=['#C8234F','#F6C9D3','#2F7EA0','#FFF3F6','#93ABDA','#E98FA8'];
 const LET='ABCDEF';
 const KEY='g3-review1-v2', TABKEY='g3-review1-tab3', MODEKEY='g3-review1-mode', MARKKEY='g3-review1-marks';
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SND=(()=>{let ctx=null,on=true;try{on=localStorage.getItem('g3-snd')!=='0'}catch(e){}
+  const ac=()=>{if(!ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;ctx=new C()}if(ctx.state==='suspended')ctx.resume();return ctx};
+  function tone(f,t0,d,type,vol,slide){const c=ac();if(!c)return;const t=c.currentTime+t0,o=c.createOscillator(),g=c.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(slide,t+d);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||.15,t+.012);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.03)}
+  const P={
+    tap(){tone(700,0,.05,'triangle',.06)},
+    right(n){const b=523.25*Math.pow(2,Math.min(n-1,12)/12);tone(b,0,.12,'triangle',.16);tone(b*1.5,.07,.18,'triangle',.13)},
+    wrong(){tone(240,0,.2,'sawtooth',.05,150)},
+    flip(){tone(380,0,.14,'sine',.09,950)},
+    done(){[523,659,784,1047].forEach((f,i)=>tone(f,i*.08,.24,'triangle',.15))},
+    combo(){[659,880,1175].forEach((f,i)=>tone(f,i*.06,.2,'square',.06))},
+    ach(){[784,988,1175,1568].forEach((f,i)=>tone(f,i*.1,.3,'square',.06));tone(1568,.42,.55,'triangle',.12)},
+    level(){[392,523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.07,.28,'triangle',.13))}
+  };
+  return{play(k,a){if(on&&P[k])try{P[k](a)}catch(e){}},get on(){return on},toggle(){on=!on;try{localStorage.setItem('g3-snd',on?'1':'0')}catch(e){}if(on)P.done();return on}};
+})();
 
 let S={done:new Set(),ach:new Set(),miss:new Set(),pts:0};
 try{const o=JSON.parse(localStorage.getItem(KEY)||'{}');S={done:new Set(o.done||[]),ach:new Set(o.ach||[]),miss:new Set(o.miss||[]),pts:o.pts||0}}catch(e){}
@@ -638,14 +677,16 @@ function confetti(x,y,n=22,spread=1){
 function right(node,e){
   combo++;
   const gain=10+Math.min(combo-1,10)*2;
+  SND.play('right',combo);
   S.pts+=gain;save();
   const[x,y]=pos(node,e);
-  floatText('+'+gain,x,y-10);
+  floatText('+'+gain,x,y-10);confetti(x,y,8,.45);
+  if(combo%5===0){setTimeout(()=>{floatText(`🔥 ${combo} 連對！`,innerWidth/2,innerHeight*.45,true);confetti(innerWidth/2,innerHeight*.45,30,1.2);SND.play('combo')},200)}
   if(combo>=2){comboEl.textContent=`🔥 連對 ${combo}${combo>=5?' ！':''}`;comboEl.classList.add('show');anim(comboEl,'bump')}
   updateStats();checkAch();
 }
 function wrong(node,cardId){
-  combo=0;comboEl.classList.remove('show');
+  combo=0;comboEl.classList.remove('show');SND.play('wrong');
   anim(node,'shake');
   if(cardId&&!S.done.has(cardId)){S.miss.add(cardId);save()}
 }
@@ -661,13 +702,14 @@ function showModal(html){
   m.querySelector('[data-close]').onclick=()=>o.classList.remove('show');
   m.querySelector('[data-close]').focus();
 }
+document.addEventListener('pointerdown',e=>{const b=e.target.closest('.tab,.mode,.pb,.blank,.small,.again,.stat,.tile,.chip');if(b&&!b.disabled)SND.play('tap')});
 document.getElementById('overlay').onclick=e=>{if(e.target.id==='overlay')e.currentTarget.classList.remove('show')};
 
 /* ---------- 進度與成就 ---------- */
 const ALL=[];SECS.forEach(s=>s.cards.forEach((c,i)=>{c.id=s.key+'-'+i;c.num=i+1;c.sec=s;ALL.push(c)}));
 function unlock(id){
   if(S.ach.has(id))return;S.ach.add(id);save();
-  const a=ACH.find(a=>a.id===id);toast(a.e,'解鎖成就：'+a.n,a.d);updateStats();
+  const a=ACH.find(a=>a.id===id);setTimeout(()=>{toast(a.e,'解鎖成就：'+a.n,a.d);SND.play('ach')},450);updateStats();
 }
 const doneOf=t=>ALL.filter(c=>c.t===t&&S.done.has(c.id)).length;
 function checkAch(){
@@ -688,7 +730,10 @@ function updateStats(){
   document.getElementById('count').textContent=S.done.size;
   document.getElementById('total').textContent='/ '+ALL.length;
   document.getElementById('sun').style.setProperty('--p',pct);
-  document.getElementById('level').textContent=LEVELS.filter(l=>pct>=l[0]).pop()[1];
+  const lv=LEVELS.filter(l=>pct>=l[0]).pop()[1],lvEl=document.getElementById('level');
+  if(window._lvReady&&lvEl.textContent!==lv&&LEVELS.findIndex(l=>l[1]===lv)>LEVELS.findIndex(l=>l[1]===lvEl.textContent)){setTimeout(()=>{toast('🎉','升級了！',lv);SND.play('level');confetti(innerWidth/2,innerHeight*.3,36,1.3)},600);anim(lvEl,'pop')}
+  lvEl.textContent=lv;window._lvReady=true;
+  const ms=Math.floor(S.pts/500);if(window._ms!=null&&ms>window._ms){setTimeout(()=>{toast('☀','陽光值突破 '+ms*500+'！','繼續保持這個節奏');SND.play('combo')},300);anim(document.getElementById('pts'),'pop')}window._ms=ms;
   document.getElementById('pts').textContent='☀ 陽光值 '+S.pts;
   document.getElementById('achBtn').textContent=`🏅 成就 ${S.ach.size}/${ACH.length}`;
   SECS.forEach(s=>{
@@ -700,7 +745,7 @@ function updateStats(){
 function complete(c,card,node,e){
   if(c.t!=='blanks'&&c.t!=='build'&&c.t!=='choice'&&c.t!=='mc'){}else showEx(card,c);
   if(S.done.has(c.id)){setDoneLook(card,c);return}
-  S.done.add(c.id);save();setDoneLook(card,c);
+  S.done.add(c.id);save();setDoneLook(card,c);SND.play('done');anim(card,'cardwin');
   const[x,y]=pos(node,e);
   confetti(x,y,c.html?40:26,c.html?1.3:1);
   setTimeout(()=>floatText(PRAISE[Math.random()*PRAISE.length|0],x,y-40,true),120);
@@ -710,6 +755,7 @@ function complete(c,card,node,e){
   if(c.sec.cards.every(k=>S.done.has(k.id)))setTimeout(()=>celebrate(c.sec),900);
 }
 function celebrate(sec){
+  SND.play('level');
   const w=innerWidth,h=innerHeight;
   [[w*.25,h*.4],[w*.75,h*.4],[w*.5,h*.3]].forEach(([x,y],i)=>setTimeout(()=>confetti(x,y,40,1.5),i*220));
   const allDone=S.done.size===ALL.length;
@@ -876,11 +922,12 @@ function buildLearn(c,card,showDone){
   card.append(el('p','q',c.q));
   const grid=el('div','flips');const seen=new Set();
   c.items.forEach((it,i)=>{
-    const f=el('button','flip'+(showDone?' on':''),`<span class="fr"><span class="fe">${it.e}</span><b class="en">${it.f}</b><small>點我翻面</small></span><span class="bk">${it.b}</span>`);
+    const f=el('button','flip',`<span class="fr"><span class="fe">${it.e}</span><b class="en">${it.f}</b><small>點我翻面</small></span><span class="bk">${it.b}</span>`);
     f.onclick=e=>{
-      f.classList.toggle('on');
-      if(!seen.has(i)&&!showDone){seen.add(i);S.pts+=5;save();updateStats();const[x,y]=pos(f,e);floatText('+5',x,y-10);
-        if(seen.size===c.items.length)complete(c,card,f,e)}
+      SND.play('flip');
+      if(reduce){f.classList.toggle('on')}else{anim(f,'turn');setTimeout(()=>f.classList.toggle('on'),170)}
+      if(!seen.has(i)&&!showDone){seen.add(i);S.pts+=5;save();updateStats();const[x,y]=pos(f,e);floatText('+5',x,y-10);confetti(x,y,8,.5);
+        if(seen.size===c.items.length)setTimeout(()=>complete(c,card,f,e),250)}
     };
     grid.append(f);
   });
@@ -992,6 +1039,8 @@ function select(key){
   SECS.forEach(s=>{const on=s.key===key;const t=document.getElementById('tab-'+s.key);if(t)t.setAttribute('aria-selected',on);document.getElementById('panel-'+s.key).classList.toggle('on',on)});
 }
 setMode(GROUPS.some(g=>g.id===mode)?mode:'gram');
+const sndBtn=document.getElementById('sndBtn');const sndLab=()=>sndBtn.textContent=SND.on?'🔊 音效開':'🔇 音效關';sndLab();
+sndBtn.onclick=()=>{SND.toggle();sndLab();anim(sndBtn,'pop')};
 document.getElementById('reset').onclick=()=>{
   if(!confirm('要清除所有進度、陽光值和成就，重新開始嗎？'))return;
   try{localStorage.removeItem(KEY)}catch(e){}
